@@ -1,4 +1,4 @@
-```html
+```
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -108,7 +108,10 @@ button.small-btn{padding:4px 7px;font-size:0.75rem;border-radius:5px;}
 @keyframes seatHealGlow{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-50%,-50%) scale(1.12);box-shadow:0 0 16px #00ff66}}
 .seat-node.healed{animation:seatHealGlow .5s ease-in-out;}
 
-/* JAVÍTOTT KÉPERNYŐ-EFFEKTEK */
+/* KIESÉSI ANIMÁCIÓ */
+@keyframes seatDyingAnim{0%{transform:translate(-50%,-50%) scale(1);filter:none;}50%{transform:translate(-50%,-50%) scale(1.25) rotate(6deg);filter:brightness(2) contrast(2);}100%{transform:translate(-50%,-50%) scale(0.9);filter:grayscale(1) opacity(0.5);}}
+.seat-node.dying{animation:seatDyingAnim 1.2s forwards ease-in-out;}
+
 @keyframes screenDynShake{0%,100%{transform:none}20%{transform:translate(-8px,6px);background:#3a1500}40%{transform:translate(8px,-6px)}60%{transform:translate(-6px,-4px)}80%{transform:translate(6px,4px)}}
 body.dynamite-shake{animation:screenDynShake .45s ease-in-out;}
 @keyframes gatlingSweepAnim{0%{box-shadow:0 0 0 0 rgba(245,197,49,.9);border-color:#fff}50%{box-shadow:0 0 35px 15px rgba(245,197,49,.7)}100%{box-shadow:0 0 60px 25px transparent}}
@@ -117,12 +120,20 @@ body.dynamite-shake{animation:screenDynShake .45s ease-in-out;}
 @keyframes bulletFade{0%{opacity:1}100%{opacity:0}}
 .flying-arrow{position:absolute;font-size:1.35rem;z-index:29;pointer-events:none;transition:all .48s cubic-bezier(.25,1,.5,1);}
 
-/* LÁTVÁNYOS INDIÁNTÁMADÁS OVERLAY */
-.ambush-overlay{position:fixed;inset:0;background:radial-gradient(circle,rgba(255,30,0,.45) 0%,rgba(160,0,0,.92) 80%);z-index:9990;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;animation:ambushPulse .85s forwards ease-out;}
-@keyframes ambushPulse{0%{opacity:0;transform:scale(.95)}30%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0}}
-.ambush-banner{color:#fff;font-size:1.8rem;font-weight:bold;text-shadow:0 0 15px #ff0000,0 0 30px #000;letter-spacing:2px;text-align:center;}
-@keyframes arrowRainFall{0%{transform:translateY(-50px) rotate(135deg);opacity:1}100%{transform:translateY(110vh) rotate(135deg);opacity:0.2}}
-.rain-arrow{position:fixed;font-size:1.6rem;top:-40px;z-index:9995;pointer-events:none;animation:arrowRainFall .8s linear forwards;}
+/* BIZTOSAN MEGJELENŐ, LÁTVÁNYOS INDIÁNTÁMADÁS OVERLAY */
+#ambush-layer{position:fixed;inset:0;pointer-events:none;z-index:99999;display:none;}
+.ambush-bg{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,20,0,.55) 0%,rgba(140,0,0,.92) 80%);animation:ambushPulse 2.1s forwards ease-out;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;}
+@keyframes ambushPulse{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.ambush-title{font-size:2rem;font-weight:900;color:#fff;text-shadow:0 0 20px #ff0000,0 0 40px #000;letter-spacing:3px;animation:titleBounce 1s infinite alternate ease-in-out;}
+@keyframes titleBounce{0%{transform:scale(0.95)}100%{transform:scale(1.08)}}
+.ambush-sub{font-size:0.95rem;color:#ffe066;font-weight:bold;margin-top:8px;text-shadow:0 0 10px #000;}
+
+@keyframes arrowRainFall{0%{transform:translateY(-60px) rotate(135deg);opacity:1;}100%{transform:translateY(115vh) rotate(135deg);opacity:0.3;}}
+.rain-arrow{position:absolute;font-size:1.8rem;top:-50px;pointer-events:none;animation:arrowRainFall 1s linear forwards;}
+
+/* GYŐZELMI KONFETTI JAVÍTVA */
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
+.confetti-piece{position:fixed;width:9px;height:14px;top:-20px;z-index:9999;animation:confettiFall 2.8s linear forwards;pointer-events:none;}
 
 .turn-spark{position:absolute;width:10px;height:10px;background:var(--g);border-radius:50%;box-shadow:0 0 10px var(--g),0 0 20px #fff;z-index:26;pointer-events:none;transition:all .55s ease-in-out;}
 @keyframes myMuzzleFlash{0%,100%{box-shadow:none;border-color:var(--g)}50%{box-shadow:0 0 25px 8px rgba(255,80,0,.9);border-color:#ffaa00}}
@@ -132,7 +143,6 @@ body.hit-by-bullet{animation:playerHitBorderFlash .7s ease-out;}
 @keyframes cardShakeHurt{0%,100%{transform:none;background:var(--c);border-color:var(--g)}20%,60%{transform:translateX(-6px);background:#551111;border-color:#ff3333}40%,80%{transform:translateX(6px)}}
 .my-card.hit{animation:cardShakeHurt .5s ease-in-out;}
 .hit-alert-badge{position:absolute;top:-10px;right:10px;background:#b22222;color:#fff;font-weight:bold;font-size:0.75rem;padding:3px 8px;border-radius:10px;box-shadow:0 0 8px #ff0000;animation:floatNumUp 1.2s forwards;pointer-events:none;z-index:30;}
-.confetti-piece{position:fixed;width:8px;height:12px;top:-20px;z-index:9999;animation:confettiFall 2.8s linear infinite;pointer-events:none;}
 #toast-container{position:fixed;right:10px;top:60px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none;}
 .toast-bubble{background:rgba(20,12,6,.92);border:1px solid var(--g);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.85rem;font-weight:bold;animation:fadein .3s,fadeout .5s 2.5s forwards;}
 @keyframes fadein{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
@@ -140,6 +150,7 @@ body.hit-by-bullet{animation:playerHitBorderFlash .7s ease-out;}
 </style>
 </head>
 <body>
+<div id="ambush-layer"></div>
 <div id="toast-container"></div>
 <header>
   <div style="display:flex;align-items:center;gap:4px;">
@@ -148,6 +159,7 @@ body.hit-by-bullet{animation:playerHitBorderFlash .7s ease-out;}
     <h1>🤠 BANG!</h1>
   </div>
   <div style="display:flex;gap:3px;">
+    <button class="secondary small-btn" style="background:#3a2010;border-color:var(--g);" onclick="openAnimTest()" title="Animációk tesztelése">🎬 Teszt</button>
     <button id="btn-mute" class="secondary small-btn" onclick="toggleMute()">🔊</button>
     <button id="btn-react" class="secondary small-btn hidden" onclick="openEmotes()">💬</button>
     <button class="secondary small-btn" onclick="openArchive()">🏛️</button>
@@ -365,6 +377,25 @@ body.hit-by-bullet{animation:playerHitBorderFlash .7s ease-out;}
   </div>
 </div>
 
+<div id="modal-anim-test" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b);padding-bottom:6px;margin-bottom:8px;">
+      <h3 style="color:var(--g);">🎬 Animációk Tesztelése</h3><button class="secondary small-btn" onclick="closeM('modal-anim-test')">✕</button>
+    </div>
+    <div style="font-size:0.75rem;color:#ccc;margin-bottom:8px;">Kattints bármelyikre, hogy azonnal megnézd a képernyődön az animációt:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <button style="background:#b22222;color:#fff;" onclick="testAmbush()">🏹 Indiántámadás</button>
+      <button style="background:#e65100;color:#fff;" onclick="testDyn()">🧨 Dinamitrobbanás</button>
+      <button style="background:#f5c531;color:#000;" onclick="testGatling()">💥 Gatling Söprés</button>
+      <button style="background:#1565c0;color:#fff;" onclick="testShot()">🎯 Lövés és Találat</button>
+      <button style="background:#2e7d32;color:#fff;" onclick="testBeer()">🍺 Sör Gyógyulás</button>
+      <button style="background:#6a1b9a;color:#fff;" onclick="testDeath()">💀 Játékos Kiesése</button>
+      <button style="background:#ffd700;color:#000;grid-column:span 2;" onclick="testConfetti()">🏆 Győzelmi Konfetti</button>
+    </div>
+    <button class="secondary w-100" style="margin-top:10px;" onclick="closeM('modal-anim-test')">Bezárás</button>
+  </div>
+</div>
+
 <div id="modal-kick" class="modal-overlay hidden">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--b);padding-bottom:6px;margin-bottom:8px;">
@@ -456,24 +487,35 @@ function playSound(type){
     const now=audioCtx.currentTime;
     if(type==='shot'){
       const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
-      osc.type='triangle'; osc.frequency.setValueAtTime(320,now); osc.frequency.exponentialRampToValueAtTime(40,now+0.16);
-      gain.gain.setValueAtTime(0.5,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.16);
+      osc.type='triangle'; osc.frequency.setValueAtTime(340,now); osc.frequency.exponentialRampToValueAtTime(35,now+0.16);
+      gain.gain.setValueAtTime(0.55,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.16);
       osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.16);
     } else if(type==='beer'){
       const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
-      osc.type='sine'; osc.frequency.setValueAtTime(620,now); osc.frequency.exponentialRampToValueAtTime(1100,now+0.14);
-      gain.gain.setValueAtTime(0.3,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.14);
-      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.14);
+      osc.type='sine'; osc.frequency.setValueAtTime(580,now); osc.frequency.exponentialRampToValueAtTime(1150,now+0.15);
+      gain.gain.setValueAtTime(0.35,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.15);
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.15);
     } else if(type==='arrow'){
       const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
-      osc.type='sine'; osc.frequency.setValueAtTime(750,now); osc.frequency.exponentialRampToValueAtTime(250,now+0.18);
-      gain.gain.setValueAtTime(0.35,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.18);
-      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.18);
+      osc.type='sine'; osc.frequency.setValueAtTime(800,now); osc.frequency.exponentialRampToValueAtTime(220,now+0.2);
+      gain.gain.setValueAtTime(0.4,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.2);
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.2);
+    } else if(type==='ambush'){
+      // Drámai mély indián dob / kürt effekt
+      const osc1=audioCtx.createOscillator(), gain1=audioCtx.createGain();
+      osc1.type='sawtooth'; osc1.frequency.setValueAtTime(120,now); osc1.frequency.exponentialRampToValueAtTime(45,now+0.6);
+      gain1.gain.setValueAtTime(0.8,now); gain1.gain.exponentialRampToValueAtTime(0.01,now+0.6);
+      osc1.connect(gain1); gain1.connect(audioCtx.destination); osc1.start(now); osc1.stop(now+0.6);
+
+      const osc2=audioCtx.createOscillator(), gain2=audioCtx.createGain();
+      osc2.type='triangle'; osc2.frequency.setValueAtTime(260,now+0.15); osc2.frequency.exponentialRampToValueAtTime(90,now+0.8);
+      gain2.gain.setValueAtTime(0.6,now+0.15); gain2.gain.exponentialRampToValueAtTime(0.01,now+0.8);
+      osc2.connect(gain2); gain2.connect(audioCtx.destination); osc2.start(now+0.15); osc2.stop(now+0.8);
     } else if(type==='explosion'){
       const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
-      osc.type='sawtooth'; osc.frequency.setValueAtTime(160,now); osc.frequency.exponentialRampToValueAtTime(20,now+0.42);
-      gain.gain.setValueAtTime(0.65,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.42);
-      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.42);
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(180,now); osc.frequency.exponentialRampToValueAtTime(20,now+0.5);
+      gain.gain.setValueAtTime(0.75,now); gain.gain.exponentialRampToValueAtTime(0.01,now+0.5);
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(now); osc.stop(now+0.5);
     }
   }catch(e){}
 }
@@ -493,6 +535,16 @@ function showChar(name){
   document.getElementById('mc-desc').innerText=c.d;
   document.getElementById('modal-char').classList.remove('hidden');
 }
+
+/* ANIMÁCIÓ TESZTELŐ */
+function openAnimTest(){ initAudio(); document.getElementById('modal-anim-test').classList.remove('hidden'); }
+function testAmbush(){ closeM('modal-anim-test'); triggerAmbushScreenFlash(); toast('🏹 Indiántámadás animáció elindítva!'); }
+function testDyn(){ closeM('modal-anim-test'); triggerDynamiteShake(); toast('🧨 Dinamitrobbanás tesztelve!'); }
+function testGatling(){ closeM('modal-anim-test'); triggerGatlingSweep(); toast('💥 Gatling söprés tesztelve!'); }
+function testShot(){ closeM('modal-anim-test'); triggerDamageAnim(0, 1, 1); triggerPersonalHitEffect(1); toast('🎯 Lövés és találat tesztelve!'); }
+function testBeer(){ closeM('modal-anim-test'); triggerHealAnim(0, 1); toast('🍺 Sör gyógyulás tesztelve!'); }
+function testDeath(){ closeM('modal-anim-test'); triggerDeathAnim(0); toast('💀 Kiesés animáció tesztelve!'); }
+function testConfetti(){ closeM('modal-anim-test'); startConfettiRain(); toast('🏆 Győzelmi konfetti elindítva!'); }
 
 function toggleReorderMode(){
   isReorderActive=!isReorderActive;
@@ -655,23 +707,34 @@ function triggerArrowFlyAnim(targetIdx, reverse=false){
   setTimeout(()=>arr.remove(),500);
 }
 
+/* JAVÍTOTT, BIZTOSAN LÁTHATÓ INDIÁNTÁMADÁS ANIMÁCIÓ */
 function triggerAmbushScreenFlash(){
-  playSound('arrow');
-  const overlay=document.createElement('div');
-  overlay.className='ambush-overlay';
-  overlay.innerHTML='<div class="ambush-banner">🏹 INDIÁNTÁMADÁS! 🏹</div>';
-  document.body.appendChild(overlay);
-  setTimeout(()=>overlay.remove(),900);
+  playSound('ambush');
+  const layer=document.getElementById('ambush-layer');
+  if(!layer) return;
+  layer.style.display='block';
+  layer.innerHTML=`
+    <div class="ambush-bg">
+      <div class="ambush-title">🏹 INDIÁNTÁMADÁS! 🏹</div>
+      <div class="ambush-sub">Elfogyott a 9 nyílvessző! Az indiánok lerohanták a várost!</div>
+    </div>
+  `;
 
-  for(let i=0;i<35;i++){
+  // 45 darab záporozó nyíl lezuhanása
+  for(let i=0;i<45;i++){
     const arr=document.createElement('div');
     arr.className='rain-arrow'; arr.innerText='🏹';
-    arr.style.left=`${Math.random()*96}vw`;
-    arr.style.animationDuration=`${0.55+Math.random()*0.4}s`;
-    arr.style.animationDelay=`${Math.random()*0.28}s`;
-    document.body.appendChild(arr);
-    setTimeout(()=>arr.remove(),1100);
+    arr.style.left=`${Math.random()*95}vw`;
+    arr.style.animationDuration=`${0.6+Math.random()*0.5}s`;
+    arr.style.animationDelay=`${Math.random()*0.4}s`;
+    layer.appendChild(arr);
   }
+
+  // 2,2 másodperc után tűnik el kényelmesen
+  setTimeout(()=>{
+    layer.style.display='none';
+    layer.innerHTML='';
+  },2200);
 }
 
 function triggerTurnSparkAnim(fromIdx, toIdx){
@@ -697,15 +760,15 @@ function triggerDeathAnim(targetIdx){
 }
 
 function startConfettiRain(){
-  const colors=['#f5c531','#b22222','#00d4ff','#00ff66','#fff','#ffb74d'];
-  for(let i=0;i<45;i++){
+  const colors=['#f5c531','#b22222','#00d4ff','#00ff66','#ffffff','#ff9800'];
+  for(let i=0;i<50;i++){
     const piece=document.createElement('div');
-    piece.className='confetti-piece'; piece.style.left=`${Math.random()*100}vw`;
+    piece.className='confetti-piece'; piece.style.left=`${Math.random()*98}vw`;
     piece.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-    piece.style.animationDelay=`${Math.random()*2.5}s`;
-    piece.style.transform=`rotate(${Math.random()*360}deg)`;
+    piece.style.animationDelay=`${Math.random()*1.8}s`;
+    piece.style.animationDuration=`${2+Math.random()*1.2}s`;
     document.body.appendChild(piece);
-    setTimeout(()=>piece.remove(),6000);
+    setTimeout(()=>piece.remove(),3500);
   }
 }
 
